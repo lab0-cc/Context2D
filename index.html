@@ -1,0 +1,271 @@
+<!doctype html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="/css/style.css">
+<script type="module">
+import { Context2D } from '/js/context2d.mjs';
+import { Point2 } from '/js/linalg.mjs';
+import { setGlobalAlpha, setLineWidth, setMiterLimit, visualize } from '/js/util.mjs';
+
+
+visualize('Single lines', [
+    new Point2(50, 50),
+    new Point2(150, 150)
+]);
+
+visualize('Regular paths', [
+    new Point2(20,  40),
+    new Point2(40, 160),
+    new Point2(70, 40),
+    new Point2(110, 160),
+    new Point2(160, 40),
+    new Point2(220, 160)
+]);
+
+visualize('Degenerate paths at the end/start 1', [
+    new Point2(50,  50),
+    new Point2(100, 150),
+    new Point2(150, 150),
+    new Point2(200, 150),
+    new Point2(250, 150),
+    new Point2(100, 135)
+]);
+
+visualize('Degenerate paths at the end/start 2', [
+    new Point2(133, 35),
+    new Point2(130, 30),
+    new Point2(100, 80),
+    new Point2(250, 50),
+    new Point2(200, 50)
+]);
+
+visualize('Degenerate small paths', [
+    new Point2(50,  50),
+    new Point2(100, 150),
+    new Point2(250, 150),
+    new Point2(130, 140),
+    new Point2(200, 120),
+    new Point2(200, 100)
+]);
+
+visualize('Stars', [
+    new Point2(120, 40),
+    new Point2(50, 70),
+    new Point2(120, 100),
+    new Point2(150, 170),
+    new Point2(180, 100),
+    new Point2(250, 70),
+    new Point2(180, 40)
+]);
+
+visualize('Degenerate stars', [
+    new Point2(150, 70),
+    new Point2(50, 70),
+    new Point2(150, 70),
+    new Point2(150, 170),
+    new Point2(150, 70),
+    new Point2(250, 70),
+    new Point2(150, 70)
+]);
+
+visualize('Degenerate stars 2', [
+    new Point2(150, 70),
+    new Point2(50, 70),
+    new Point2(130, 70),
+    new Point2(150, 170),
+    new Point2(170, 70),
+    new Point2(250, 70),
+    new Point2(150, 70)
+]);
+
+visualize('Degenerate stars 3', [
+    new Point2(150, 70),
+    new Point2(50, 70),
+    new Point2(140, 70),
+    new Point2(150, 170),
+    new Point2(160, 70),
+    new Point2(250, 70),
+    new Point2(150, 70)
+]);
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('globalAlpha').addEventListener('input', e => {
+        setGlobalAlpha(parseFloat(event.target.value));
+    });
+
+    document.getElementById('lineWidth').addEventListener('input', e => {
+        setLineWidth(parseInt(event.target.value));
+    });
+
+    document.getElementById('miterLimit').addEventListener('input', e => {
+        setMiterLimit(parseInt(event.target.value));
+    });
+
+    const intro = document.getElementById('shadings-intro');
+    let ctx = intro.getContext('2d');
+    Object.setPrototypeOf(ctx, Context2D.prototype);
+    ctx.lineWidth = 10;
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
+    ctx.strokeGradient([
+        new Point2(20, 70),
+        new Point2(120, 70),
+        new Point2(120, 170),
+        new Point2(20, 170),
+        new Point2(20, 120),
+        new Point2(170, 120),
+        new Point2(170, 220),
+        new Point2(70, 220),
+        new Point2(70, 20),
+    ], [
+        '#000',
+        '#141414',
+        '#282828',
+        '#3c3c3c',
+        '#464646',
+        '#646464',
+        '#787878',
+        '#8c8c8c',
+        '#b4b4b4'
+    ]);
+    ctx.strokeGradient([
+        new Point2(200, 70),
+        new Point2(300, 70),
+        new Point2(300, 170),
+        new Point2(200, 170),
+        new Point2(200, 120),
+        new Point2(350, 120),
+        new Point2(350, 220),
+        new Point2(250, 220),
+        new Point2(250, 20),
+    ], [
+        '#000',
+        '#000000eb',
+        '#000000d7',
+        '#000000c3',
+        '#000000b9',
+        '#0000009b',
+        '#00000087',
+        '#00000073',
+        '#0000004b'
+    ]);
+    ctx.strokeGradient([
+        new Point2(380, 70),
+        new Point2(480, 70),
+        new Point2(480, 170),
+        new Point2(380, 170),
+        new Point2(380, 120),
+        new Point2(530, 120),
+        new Point2(530, 220),
+        new Point2(430, 220),
+        new Point2(430, 20),
+    ], [
+        '#f008',
+        '#00fa',
+        '#0ff8',
+        '#f0f',
+        '#00f6',
+        '#f00b',
+        '#f0f',
+        '#00f9',
+        '#fff3'
+    ]);
+
+    const limitations1 = document.getElementById('shadings-limitations-1');
+    ctx = limitations1.getContext('2d');
+    Object.setPrototypeOf(ctx, Context2D.prototype);
+    ctx.lineWidth = 10;
+    ctx.strokeGradient([
+        new Point2(20, 120),
+        new Point2(120, 20),
+        new Point2(220, 120),
+    ], ['#f00', '#00f', '#0f0']);
+    ctx.strokeGradient([
+        new Point2(240, 120),
+        new Point2(290, 20),
+        new Point2(340, 120),
+    ], ['#f00', '#00f', '#0f0']);
+    ctx.strokeGradient([
+        new Point2(360, 120),
+        new Point2(385, 20),
+        new Point2(410, 120),
+    ], ['#f00', '#00f', '#0f0']);
+    ctx.strokeGradient([
+        new Point2(430, 120),
+        new Point2(442, 20),
+        new Point2(454, 120),
+    ], ['#f00', '#00f', '#0f0']);
+    ctx.strokeGradient([
+        new Point2(475, 120),
+        new Point2(481, 20),
+        new Point2(487, 120),
+    ], ['#f00', '#00f', '#0f0']);
+    ctx.strokeGradient([
+        new Point2(507, 120),
+        new Point2(510, 20),
+        new Point2(513, 120),
+    ], ['#f00', '#00f', '#0f0']);
+
+    const limitations2 = document.getElementById('shadings-limitations-2');
+    ctx = limitations2.getContext('2d');
+    Object.setPrototypeOf(ctx, Context2D.prototype);
+    for (let i = 0; i < 7; i++) {
+        ctx.lineWidth = 2 + 10 * i;
+        let path = [new Point2(60 + 100 * i, 80), new Point2(70 + 100 * i, 80),
+                    new Point2(20 + 100 * i, 30)];
+        ctx.beginPath();
+        path.forEach(e => ctx.lineTo(e));
+        ctx.stroke();
+        ctx.strokeGradient(path.map(({ x, y }) => new Point2(x, y + 100)), ['#000', '#000', '#000']);
+    }
+});
+</script>
+<body>
+<a class="corner" href="https://github.com/lab0-cc/Context2D">See on GitHub</a>
+<h1>Introduction</h1>
+<p>This repository is a playground for experiments around JavaScript canvases. This is not intended as a general-purpose library; the features implemented here are those required by the <a href="https://0wm.lab0.cc">0WM project</a>.</p>
+<p>
+    Currently, this project modifies canvases in two ways:
+    <ul>
+        <li>By changing most function arguments so that they use point and vector objects rather than their coordinates;</li>
+        <li>By implementing gradient shadings along paths.</li>
+    </ul>
+</p>
+
+<h2>Usage</h1>
+<p>The library exhibits a JavaScript module, <code>context2d.mjs</code>, defining an extension of the <code>CanvasRenderingContext2D</code> class. So as to not pollute namespaces, using the library requires monkey-patching a context’s prototype like so: <code>Object.setPrototypeOf(ctx, Context2D.prototype)</code>.</p>
+
+
+<h1>Gradient shadings</h1>
+<p>The main purpose of this library is to provide a way to draw paths with gradient shadings along them. The initial intent was to draw paths whose opacity faded away, but the library grew more and more generic.</p>
+<canvas id="shadings-intro" width="550" height="240"></canvas>
+
+<h2>Usage</h1>
+<p>Drawing a shaded path <code>path</code>, made of a list of points, with the colors <code>colors</code> at each point, can be done this way: <code>ctx.strokeGradient(path, colors)</code>. <code>strokeGradient</code> respects the <code>lineCap</code>, <code>lineJoin</code>, <code>lineWidth</code> and <code>miterLimit</code> context properties.</p>
+
+<h2>How does it work?</h2>
+<p>The shading algorthm tries as much as possible to render a continuous background along the path. To this end, each path segment is colored with a gradient that ensures, if possible (sufficiently small line width wrt. segment length, and sufficiently large angles), continuity of color at the interface between two segments. In some cases, this can lead to a visually unattractive rendering, but we favor respect for continuity in our implementation.</p>
+
+<h2>Limitations</h1>
+<p>When a continuous segment interface is impossible to guarantee, the algorithm switches to a degraded mode. In this mode, overlapping segments are generated:<p>
+<canvas id="shadings-limitations-1" width="535" height="140"></canvas>
+
+<p>Beyond that, the drawing algorithm may differ from the one JavaScript canvases use, in some cases where a naïve approach would lead to an incorrect geometry (e.g. when a path length is smaller than the line width and the path has an acute angle). This is evidenced below; on the first row, the original canvas version; on the second row, this library’s algorithm.</p>
+<canvas id="shadings-limitations-2" width="760" height="220"></canvas>
+
+<p>Finally, stitch lines may appear as an artifact of our algorithm. For now, no effort is made to attenuate them.</a>
+
+<h2>Visual tests</h2>
+<p>The rest of this section features a playground to try the gradient shading feature. The top part of each test represents the difference between the vanilla canvas path and the one drawn using our algorithm. Gray portions represent matches between both algorithms, red portions are only present in the vanilla algorithm, and blue portions are only present in our algorithm. A match score is then given to assess similarities.</p>
+
+<div id="gadget">
+    <label for="globalAlpha">Opacity</label>
+    <input type="range" id="globalAlpha" min="0.1" max="1" value="1" step="0.1" />
+    <label for="lineWidth">Line width</label>
+    <input type="range" id="lineWidth" min="1" max="100" value="20" step="1" />
+    <label for="lineWidth">Miter limit</label>
+    <input type="range" id="miterLimit" min="2" max="10" value="4" step="1" />
+</div>
+</body>
+</html>

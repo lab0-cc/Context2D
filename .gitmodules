@@ -1,0 +1,3 @@
+[submodule "ext/linalg"]
+	path = ext/linalg
+	url = https://github.com/lab0-cc/linalg
