@@ -2,19 +2,86 @@ import { Point2 } from '/js/linalg.mjs';
 
 export class Context2D extends CanvasRenderingContext2D {
     moveTo(p) {
+        this._firstPoint = p;
+        this._previousPoint = p;
         super.moveTo(p.x, p.y);
     }
 
-    lineTo(p) {
-        super.lineTo(p.x, p.y);
+    beginPath() {
+        this._firstPoint = undefined;
+        this._previousPoint = undefined;
+        super.beginPath();
     }
 
-    arc(p, radius, v1, v2, counterclockwise=false) {
+    closePath() {
+        this._firstPoint = undefined;
+        this._previousPoint = undefined;
+        super.closePath();
+    }
+
+    lineTo(p) {
+        if (this._firstPoint === undefined)
+            return this.moveTo(p);
+        if (p == this._firstPoint)
+            return this.closePath();
+        if (p == this._previousPoint)
+            return;
+        super.lineTo(p.x, p.y);
+        this._previousPoint = p;
+    }
+
+    line(s) {
+        this.lineTo(s.p);
+        this.lineTo(s.o);
+    }
+
+    arc(p, radius, v1, v2) {
         super.arc(p.x, p.y, radius, Math.atan2(v1.y, v1.x), Math.atan2(v2.y, v2.x));
+    }
+
+    circle(p, radius) {
+        this.beginPath();
+        super.arc(p.x, p.y, radius, 0, 2*Math.PI);
+    }
+
+    polygon(p) {
+        this._firstPoint = undefined;
+        for (const edge of p.edges())
+            this.line(edge);
     }
 
     createLinearGradient(p1, p2) {
         return super.createLinearGradient(p1.x, p1.y, p2.x, p2.y);
+    }
+
+    clearRect(p, v) {
+        let x = p.x;
+        let y = p.y;
+        if (v.x < 0)
+            x += v.x;
+        if (v.y < 0)
+            y += v.y;
+        return super.clearRect(x, y, Math.abs(v.x), Math.abs(v.y));
+    }
+
+    rect(p, v) {
+        let x = p.x;
+        let y = p.y;
+        if (v.x < 0)
+            x += v.x;
+        if (v.y < 0)
+            y += v.y;
+        return super.rect(x, y, Math.abs(v.x), Math.abs(v.y));
+    }
+
+    drawImage(image, p, v) {
+        let x = p.x;
+        let y = p.y;
+        if (v.x < 0)
+            x += v.x;
+        if (v.y < 0)
+            y += v.y;
+        return super.drawImage(image, x, y, Math.abs(v.x), Math.abs(v.y));
     }
 
     strokeGradient(path, colors) {
