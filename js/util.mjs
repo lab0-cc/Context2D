@@ -1,5 +1,5 @@
 import { Context2D } from '/js/context2d.mjs';
-import { Point2 } from '/js/linalg.mjs';
+import { Point2, Vector2 } from '/js/linalg.mjs';
 
 
 const contexts = [];
@@ -97,7 +97,7 @@ function visualizeOne(ctx, points, offset) {
 
 
 function redraw({ ctx, points, section, description }) {
-    ctx.clearRect(0, 0, 1600, 800);
+    ctx.clearRect(new Point2(0, 0), new Vector2(1600, 800));
     ctx.miterLimit = miterLimit;
     const valid = visualizeOne(ctx, points, 0) + visualizeOne(ctx, points.toReversed(), 750);
     section.h3.textContent = `${description} (${valid} / 12)`;
