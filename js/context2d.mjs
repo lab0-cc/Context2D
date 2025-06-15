@@ -74,9 +74,15 @@ export class Context2D extends CanvasRenderingContext2D {
         return super.rect(x, y, Math.abs(v.x), Math.abs(v.y));
     }
 
-    drawImage(image, p, v) {
+    scale(v) {
+        return super.scale(v.x, v.y);
+    }
+
+    drawImage(image, p, v = null) {
         let x = p.x;
         let y = p.y;
+        if (v === null)
+            return super.drawImage(image, x, y);
         if (v.x < 0)
             x += v.x;
         if (v.y < 0)
