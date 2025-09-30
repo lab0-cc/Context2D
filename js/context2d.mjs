@@ -1,4 +1,4 @@
-import { Point2 } from '/js/linalg.mjs';
+import { Vector2 } from '/js/linalg.mjs';
 
 export class Context2D extends CanvasRenderingContext2D {
     moveTo(p) {
@@ -88,6 +88,14 @@ export class Context2D extends CanvasRenderingContext2D {
         if (v.y < 0)
             y += v.y;
         return super.drawImage(image, x, y, Math.abs(v.x), Math.abs(v.y));
+    }
+
+    transform(m, v = Vector2.origin) {
+        return super.transform(m.a, m.c, m.b, m.d, v.x, v.y);
+    }
+
+    setTransform(m, v = Vector2.origin) {
+        return super.setTransform(m.a, m.c, m.b, m.d, v.x, v.y);
     }
 
     strokeGradient(path, colors) {
